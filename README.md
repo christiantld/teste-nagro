@@ -1,4 +1,4 @@
-# teste-nagro
+# Teste Nagro
 
 ## Project setup
 ```
