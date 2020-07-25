@@ -59,16 +59,22 @@ form {
   }
 
   input {
-    margin: 8px 10px;
-    outline: none;
-    padding: 8px;
+    background: rgba(100, 100, 100, 0.1);
+    border: 0;
+    border-radius: 4px;
     width: 250px;
-    border-radius: 5px;
-    border: 1px solid #ddd
+    height: 35px;
+    padding: 0 15px;
+    color: rgba(3, 3, 3, 0.5);
+    margin-right: 15px;
+    margin-top: 10px;
+    &::placeholder {
+      color: rgba(3, 3, 3, 0.3);
+    }
   }
 
   button {
-    margin-top: 15px;
+    margin-top: 30px;
     background-color: #1565c0;
     color:#fff;
     width: 150px;

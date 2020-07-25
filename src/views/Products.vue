@@ -2,11 +2,15 @@
   <div class="home">
     <NavBar />
     <div class="form__container">
-      <h3 class="form__title">Cadastrar Empresa</h3>
+      <h3 class="form__title">Cadastrar Produto</h3>
       <form @submit.prevent class="form__content">
         <div class="inputs">
-          <input type="text" name id="name-company" placeholder="Nome da empresa" maxlength="100" />
-          <input type="text" name id="cnpj" placeholder="CNPJ" maxlength="14" />
+          <input type="text" name id="name-product" placeholder="Nome do produto" maxlength="100" />
+          <select>
+              <option selected disabled value>Escolha uma empresa</option>
+              <option v-for="company in companies" :value="company.name"
+              :key="company.id">{{company.name}}</option>
+          </select>
         </div>
         <div class="buttons">
           <button>Cadastrar</button>
@@ -19,18 +23,18 @@
       <table>
         <thead>
           <tr>
-            <th>Nome da empresa</th>
-            <th>CNPJ</th>
+            <th>Nome do Produto</th>
+            <th>Empresa</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="company in companies" :key="company.id">
+          <tr>
             <td>
-              <span>{{company.name}}</span>
+              <span>Teste</span>
             </td>
             <td>
-              <span>{{company.cnpj}}</span>
+              <span>Teste</span>
             </td>
             <td>
               <div class="buttons">
@@ -95,6 +99,10 @@ export default {
   height: 90px;
   flex-wrap: wrap;
 
+#name-product {
+  width: 500px;
+}
+
   input {
     background: rgba(100, 100, 100, 0.1);
     border: 0;
@@ -111,6 +119,16 @@ export default {
 
   #name-company {
     width: 500px;
+  }
+
+  .inputs {
+    select {
+    padding: 10px;
+    border:none;
+    border-radius: 5px;
+    background: rgba(100, 100, 100, 0.1);
+    color:  rgba(100, 100, 100, 0.8);
+    }
   }
 
   button {
