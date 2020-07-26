@@ -1,38 +1,80 @@
 <template>
-<div id="wrapper">
-<svg id="svg-container" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 280">
-    <path fill="#f0f1f4" fill-opacity="3" d="M0,256L40,261.3C80,267,160,277,240,
+  <div id="login">
+    <svg id="svg-container" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 280">
+      <path
+        fill="#f0f1f4"
+        fill-opacity="3"
+        d="M0,256L40,261.3C80,267,160,277,240,
     277.3C320,277,400,267,480,240C560,213,640,171,720,144C800,117,880,107,960,
     112C1040,117,1120,139,1200,133.3C1280,128,1360,96,1400,80L1440,64L1440,
     0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,
-    560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"></path></svg>
-  <div id="container">
-    <div class="login__form">
-      <form action="">
-        <h3>Faça seu Login</h3>
-        <hr>
-        <input type="text" name="" id="" placeholder="E-mail">
-        <input type="password" name="" id="" placeholder="Senha">
-        <button>Entrar</button>
-      </form>
+    560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"
+      />
+    </svg>
+    <div id="form__container">
+      <div class="login__form">
+        <form @submit.prevent="login">
+          <h3>Faça seu Login</h3>
+          <hr />
+          <input type="email" required  placeholder="E-mail" v-model="user.email" />
+          <input type="password" required placeholder="Senha" v-model="user.password" />
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+      <div class="signup">
+        <span>Novo usuário?</span>
+        <router-link to="/signup" class="btn__signup">
+          <strong>Cadastrar</strong>
+        </router-link>
+      </div>
     </div>
-    <div class="signup">
-      <span>Novo usuário?</span>
-      <router-link to="/signup" class="btn__signup">
-        <strong>Cadastrar</strong>
-      </router-link>
-    </div>
-
   </div>
-</div>
 </template>
 
 <script>
-export default {};
+import axios from 'axios';
+
+export default {
+  name: 'login',
+  data() {
+    return {
+      user: {
+        email: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        const response = await axios.get(
+          `http://localhost:3333/users?email=${this.user.email}&password=${this.user.password}`,
+        );
+        if (response.data.length !== 1) {
+          throw new Error('Erro ao fazer Login, verifique seus dados');
+        }
+        const [user] = response.data;
+        delete user.password;
+
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userName', user.name);
+
+        this.navigate();
+        console.log(user, this.user.email, this.user.password);
+      } catch (error) {
+        console.error(error.message);
+      }
+    },
+    navigate() {
+      this.$router.push('/');
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-#container {
+#form__container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,48 +86,48 @@ export default {};
   width: 300px;
   height: 340px;
   display: flex;
-  background-color:#f0f1f4;
+  background-color: #f0f1f4;
   align-items: flex-start;
   justify-content: center;
-  flex-direction:column;
-  border-radius:5px;
+  flex-direction: column;
+  border-radius: 5px;
 
-form {
-  width: 265px;
-  height: 265px;
-  h3 {
-    padding: 20px
-  }
+  form {
+    width: 265px;
+    height: 265px;
+    h3 {
+      padding: 20px;
+    }
 
-  input {
-    background: rgba(100, 100, 100, 0.1);
-    border: 0;
-    border-radius: 4px;
-    width: 250px;
-    height: 35px;
-    padding: 0 15px;
-    color: rgba(3, 3, 3, 0.5);
-    margin-right: 15px;
-    margin-top: 10px;
-    &::placeholder {
-      color: rgba(3, 3, 3, 0.3);
+    input {
+      background: rgba(100, 100, 100, 0.1);
+      border: 0;
+      border-radius: 4px;
+      width: 250px;
+      height: 35px;
+      padding: 0 15px;
+      color: rgba(3, 3, 3, 0.5);
+      margin-right: 15px;
+      margin-top: 10px;
+      &::placeholder {
+        color: rgba(3, 3, 3, 0.3);
+      }
+    }
+
+    button {
+      margin-top: 30px;
+      background-color: #1565c0;
+      color: #fff;
+      width: 150px;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    hr {
+      margin: 10px 0;
     }
   }
-
-  button {
-    margin-top: 30px;
-    background-color: #1565c0;
-    color:#fff;
-    width: 150px;
-    padding: 10px;
-    font-weight: bold;
-    border-radius: 5px;
-  }
-
-  hr {
-    margin: 10px 0;
-  }
-}
 }
 
 .signup {
@@ -93,11 +135,11 @@ form {
   width: 300px;
   height: 60px;
   display: flex;
-  background-color:#f0f1f4;
+  background-color: #f0f1f4;
 
   align-items: center;
   justify-content: center;
-  border-radius:5px;
+  border-radius: 5px;
   .btn__signup {
     text-decoration: none;
     font-size: 16px;

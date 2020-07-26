@@ -14,7 +14,7 @@
       <aside>
         <span class="aside__greetings">
           Olá,
-          <strong>Usuario</strong>
+          <strong>{{userName}}</strong>
         </span>
         <button @click="logOut">Sair</button>
       </aside>
@@ -23,16 +23,34 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
+  data() {
+    return {
+      userName: '',
+    };
+  },
   methods: {
-    async logOut() {
-      const response = await axios.get('https://5f1aff12610bde0016fd343f.mockapi.io/user/1');
-      const { id, name, email } = response.data;
+    logOut() {
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userEmail');
 
-      console.log(id, name, email);
+      this.navigate();
     },
+
+    getUserInfo() {
+      const [userFirstName] = localStorage.getItem('userName')
+        ? localStorage.getItem('userName').split(' ')
+        : '';
+      this.userName = userFirstName;
+    },
+
+    navigate() {
+      this.$router.push('/login');
+    },
+  },
+  beforeMount() {
+    this.getUserInfo();
   },
 };
 </script>
@@ -55,7 +73,7 @@ export default {
     display: flex;
     align-items: flex-start;
     margin-top: 8px;
-    a:visited {
+    a {
       color: #1565c0;
     }
     span {
@@ -84,4 +102,3 @@ export default {
   }
 }
 </style>
-background: rgba(100, 100, 100, 0.1);

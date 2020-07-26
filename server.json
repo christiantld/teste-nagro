@@ -1,7 +1,109 @@
 {
-  "users": [],
-
-  "companies": [],
-
+  "users": [
+    {
+      "name": "Christian",
+      "email": "christian@email.com",
+      "password": "12345",
+      "id": 1
+    },
+    {
+      "name": "Diogo Clemente",
+      "email": "betoneira@email.com",
+      "password": "12345",
+      "id": 2
+    },
+    {
+      "name": "Rossano Vinicius",
+      "email": "pirpinta@email.com",
+      "password": "12345",
+      "id": 3
+    },
+    {
+      "name": "Diogo Rego",
+      "email": "diogo@email.com",
+      "password": "12345",
+      "id": 4
+    },
+    {
+      "name": "Diogo",
+      "email": "betoneira@email.com",
+      "password": "12345",
+      "id": 5
+    },
+    {
+      "name": "Ademir",
+      "email": "admin@admin.com",
+      "password": "admin123",
+      "id": 6
+    }
+  ],
+  "companies": [
+    {
+      "id": "1",
+      "userId": "6",
+      "name": "Lehner - Kassulke",
+      "cnpj": 9909089
+    },
+    {
+      "id": "50",
+      "userId": "6",
+      "name": "Reichel and Sons",
+      "cnpj": 9900898
+    },
+    {
+      "id": "50",
+      "userId": "1",
+      "name": "Reichel and Sons",
+      "cnpj": 9900898
+    },
+    {
+      "userId": 6,
+      "name": "Apple",
+      "cnpj": "92801908290",
+      "id": "P9lQR_S"
+    },
+    {
+      "userId": "6",
+      "name": "Google",
+      "cnpj": "90909092",
+      "id": "RmKaiqj"
+    },
+    {
+      "userId": "6",
+      "name": "Amazon",
+      "cnpj": "091208912",
+      "id": "RgkMS3q"
+    },
+    {
+      "userId": "6",
+      "name": "Alterar Mascara CNPJ",
+      "cnpj": "jhhjkjkh",
+      "id": "WnKZh7C"
+    },
+    {
+      "userId": "6",
+      "name": "JBL",
+      "cnpj": "56564465465433",
+      "id": "FUT383B"
+    },
+    {
+      "userId": "6",
+      "name": "Samsung",
+      "cnpj": "65465465465",
+      "id": "iqgi69d"
+    },
+    {
+      "userId": "6",
+      "name": "AOC",
+      "cnpj": "90890212",
+      "id": "woXUaSs"
+    },
+    {
+      "userId": "6",
+      "name": "Coca-Cola",
+      "cnpj": "90909092",
+      "id": "d_EkoeF"
+    }
+  ],
   "products": []
 }

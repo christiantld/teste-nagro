@@ -75,7 +75,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .form__container {
   display: flex;
   background: #f8f9fa;
@@ -100,7 +100,7 @@ export default {
   flex-wrap: wrap;
 
 #name-product {
-  width: 500px;
+  width: 400px;
 }
 
   input {
@@ -117,13 +117,14 @@ export default {
     }
   }
 
-  #name-company {
-    width: 500px;
+  #name-product {
+    width: 300px;
   }
 
   .inputs {
     select {
     padding: 10px;
+    width: 200px;
     border:none;
     border-radius: 5px;
     background: rgba(100, 100, 100, 0.1);

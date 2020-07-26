@@ -8,26 +8,47 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
+    redirect: 'companies',
+    beforeEnter: (to, from, next) => {
+      if (to.name !== 'Login' && !localStorage.getItem('userId')) next({ name: 'Login' });
+      else next();
+    },
+  },
+  {
+    path: '/companies',
     name: 'Home',
     component: Home,
+    beforeEnter: (to, from, next) => {
+      if (to.name !== 'Login' && !localStorage.getItem('userId')) next({ name: 'Login' });
+      else next();
+    },
   },
   {
     path: '/products',
     name: 'Products',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: 'about' */ '../views/Products.vue'),
+    beforeEnter: (to, from, next) => {
+      if (to.name !== 'Login' && !localStorage.getItem('userId')) next({ name: 'Login' });
+      else next();
+    },
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
+    beforeEnter: (to, from, next) => {
+      if (to.name === 'Login' && localStorage.getItem('userId')) next({ name: 'Home' });
+      else next();
+    },
   },
   {
     path: '/signup',
     name: 'Signup',
     component: () => import(/* webpackChunkName: 'about' */ '../views/SignUp.vue'),
+    beforeEnter: (to, from, next) => {
+      if (to.name === 'Signup' && localStorage.getItem('userId')) next({ name: 'Home' });
+      else next();
+    },
   },
 ];
 

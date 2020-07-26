@@ -5,12 +5,28 @@
       <h3 class="form__title">Cadastrar Empresa</h3>
       <form @submit.prevent class="form__content">
         <div class="inputs">
-          <input type="text" name id="name-company" placeholder="Nome da empresa" maxlength="100" />
-          <input type="text" name id="cnpj" placeholder="CNPJ" maxlength="14" />
+          <input
+            type="text"
+            name
+            id="name-company"
+            required
+            placeholder="Nome da empresa"
+            maxlength="100"
+            v-model.trim.lazy="company.name"
+          />
+          <input
+            type="text"
+            name
+            id="cnpj"
+            placeholder="CNPJ"
+            required
+            maxlength="14"
+            v-model.trim.lazy="company.cnpj"
+          />
         </div>
         <div class="buttons">
-          <button>Cadastrar</button>
-          <button>Atualizar</button>
+          <button @click="saveCompany">{{!id ? 'Cadastrar' : 'Atualizar'}}</button>
+          <!-- <button>Atualizar</button> -->
         </div>
       </form>
     </div>
@@ -34,8 +50,8 @@
             </td>
             <td>
               <div class="buttons">
-                <button>Alterar</button>
-                <button>Excluir</button>
+                <button @click="editCompany(company)">Alterar</button>
+                <button @click="deleteCompany(company)">Excluir</button>
               </div>
             </td>
           </tr>
@@ -53,6 +69,12 @@ export default {
   name: 'Home',
   data() {
     return {
+      company: {
+        userId: this.getUserId(),
+        name: '',
+        cnpj: '',
+      },
+      id: null,
       companies: [],
     };
   },
@@ -60,9 +82,64 @@ export default {
     NavBar,
   },
   methods: {
+    clear() {
+      this.company.name = '';
+      this.company.cnpj = '';
+      this.id = null;
+    },
+    setIdToNull() {
+      if (this.company.name && this.company.cnpj) {
+        this.id = null;
+        console.log(this.id);
+      }
+    },
+
+    getUserId() {
+      const userId = localStorage.getItem('userId');
+      return userId;
+    },
+
+    editCompany(company) {
+      this.company = company;
+      this.id = company.id;
+    },
     async getCompanies() {
-      const response = await axios.get('https://5f1aff12610bde0016fd343f.mockapi.io/user/1/companies');
-      this.companies = response.data;
+      const response = await axios.get(
+        `http://localhost:3333/companies?userId=${this.company.userId}`,
+      );
+      const companies = response.data;
+      this.companies = companies;
+    },
+    async saveCompany() {
+      if (!this.company.name || !this.company.cnpj) {
+        return;
+      }
+      if (!this.id) {
+        const response = await axios.post(
+          'http://localhost:3333/companies',
+          this.company,
+        );
+        console.log(response.data);
+        this.getCompanies();
+        this.clear();
+      } else {
+        const response = await axios.put(
+          `http://localhost:3333/companies/${this.id}`,
+          this.company,
+        );
+        console.log(response.data);
+        this.getCompanies();
+        this.clear();
+      }
+    },
+    async deleteCompany(company) {
+      this.id = company.id;
+      // eslint-disable-next-line no-restricted-globals
+      if (confirm('Esta operaçāo é irreversível. Deseja apagar o produto?')) {
+        await axios.delete(`http://localhost:3333/companies/${this.id}`);
+        this.getCompanies();
+        this.clear();
+      }
     },
   },
   beforeMount() {
@@ -90,7 +167,7 @@ export default {
 .form__content {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin: 20px 0 0 20px;
   height: 90px;
   flex-wrap: wrap;
@@ -101,16 +178,20 @@ export default {
     border-radius: 5px;
     height: 35px;
     padding: 0 15px;
-    color: rgba(3, 3, 3, 0.5);
+    color: rgba(3, 3, 3, 0.7);
     margin-right: 15px;
     margin-top: 5px;
     &::placeholder {
-      color: rgba(3, 3, 3, 0.5);
+      color: rgba(3, 3, 3, 0.4);
     }
   }
 
   #name-company {
     width: 500px;
+  }
+
+  #cnpj {
+    width: 250px;
   }
 
   button {
@@ -119,13 +200,9 @@ export default {
     width: 150px;
     height: 40px;
     padding: 10px;
+    font-size: 16px;
     font-weight: bold;
     border-radius: 5px;
-  }
-
-  button + button {
-    margin-left: 10px;
-    background-color: #1565c0;
   }
 }
 
