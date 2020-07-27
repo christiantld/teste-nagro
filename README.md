@@ -108,12 +108,32 @@ A aplicação possui três usuários pré cadastrados para testes que você pode
     
   ```
 
+
+
+Login
+![loginNagro](https://user-images.githubusercontent.com/37941820/88587794-e6f25100-d02c-11ea-97c2-58ffbaf1fa3c.png)
+
+ou 
+
+Cadastro de um novo usuário
+![cadastroNagro](https://user-images.githubusercontent.com/37941820/88587896-130dd200-d02d-11ea-8210-2f37d3d48597.png)
+
+
 Cada usuário possui a sua própria lista de empresas, que por sua vez possuem seus próprios produtos.
+
+Página de CRUD das empresas
+![empresasNagro](https://user-images.githubusercontent.com/37941820/88587950-23be4800-d02d-11ea-8ee0-f5b59e87c489.png)
+
+Página de CRUD dos produtos.
+![produtoNagro](https://user-images.githubusercontent.com/37941820/88588014-3e90bc80-d02d-11ea-9690-f9e7d6f51add.png)
 
 
 ## ⛏️ Ferramentas <a name = "built_using"></a>
 
 - [VueJs](https://vuejs.org/) - Web Framework
+- [Json Server](https://github.com/typicode/json-server)
+- [Vue The Mask](https://vuejs-tips.github.io/vue-the-mask/)
+- [Vue Toastify](https://vue-toastify.netlify.app/)
 
 ## ✍️ Autor <a name = "authors"></a>
 
