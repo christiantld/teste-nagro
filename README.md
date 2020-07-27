@@ -83,8 +83,11 @@ npm run serve
 yarn serve
 ```
 
-caso o erro `No valid exports main found for '/Users/christiantld/Desktop/teste-nagro/node_modules/colorette'` apareça
-basta reinstalar a dependência com o comando `npm i colorette@1.2.0`
+caso o erro `No valid exports main found for '/.../teste-nagro/node_modules/colorette'` apareça
+basta reinstalar a dependência com o comando
+```
+npm i colorette@1.2.0
+````
 
 A aplicação irá inicializar em `http://localhost:8080`, caso a porta esteja disponível
 
