@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "colorette": "^1.2.0",
     "core-js": "^3.6.5",
     "json-server": "^0.16.1",
     "vue": "^2.6.11",
