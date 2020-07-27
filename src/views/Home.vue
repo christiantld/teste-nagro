@@ -20,8 +20,8 @@
             placeholder="CNPJ"
             required
             autocomplete="off"
-            maxlength="14"
             v-model.trim.lazy="company.cnpj"
+            v-mask="['##.###.###/####-##']"
           />
         </div>
         <div class="buttons">
@@ -33,7 +33,10 @@
 
     <div class="table__container">
       <table>
-        <thead>
+        <thead v-if="companies.length === 0">
+          <th>Nenhuma empresa cadastrada</th>
+        </thead>
+        <thead v-else>
           <tr>
             <th>Nome da empresa</th>
             <th>CNPJ</th>
@@ -64,9 +67,11 @@
 <script>
 import NavBar from '@/components/NavBar.vue';
 import axios from 'axios';
+import { mask } from 'vue-the-mask';
 
 export default {
   name: 'Home',
+  directives: { mask },
   data() {
     return {
       company: {
@@ -86,19 +91,12 @@ export default {
       this.company.name = '';
       this.company.cnpj = '';
       this.id = null;
+      delete this.company.id;
     },
-    setIdToNull() {
-      if (this.company.name && this.company.cnpj) {
-        this.id = null;
-        console.log(this.id);
-      }
-    },
-
     getUserId() {
       const userId = localStorage.getItem('userId');
       return userId;
     },
-
     editCompany(company) {
       this.company = company;
       this.id = company.id;
@@ -108,47 +106,97 @@ export default {
       this.getCompanies();
     },
     async getCompanies() {
-      const response = await axios.get(
-        `http://localhost:3333/companies?userId=${this.company.userId}&_sort=name&_order=asc`,
-      );
-      const companies = response.data;
-      this.companies = companies;
+      try {
+        const response = await axios.get(
+          `http://localhost:3333/companies?userId=${this.company.userId}&_sort=name&_order=asc`,
+        );
+        const companies = response.data;
+        this.companies = companies;
+      } catch (error) {
+        this.$vToastify.error({
+          title: 'Erro',
+          body: 'Falha no carregamento das empresas',
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
+      }
     },
     async saveCompany() {
       try {
         if (!this.company.name || !this.company.cnpj) {
+          this.$vToastify.warning({
+            title: 'Alerta',
+            body: 'Preencha os dados corretamente',
+            type: 'warning',
+            canTimeout: true,
+            duration: 2000,
+          });
           return;
         }
         if (!this.id) {
-          delete this.company.id;
-          const response = await axios.post(
+          await axios.post(
             'http://localhost:3333/companies',
             this.company,
           );
-          console.log(response.data);
           this.getCompanies();
           this.clear();
+          this.$vToastify.success({
+            title: 'Sucesso',
+            body: 'Empresa cadastrada',
+            type: 'success',
+            canTimeout: true,
+            duration: 2000,
+          });
         } else {
           const response = await axios.put(
             `http://localhost:3333/companies/${this.id}`,
             this.company,
           );
-          console.log(response.data);
           this.getCompanies();
           this.clear();
+          this.$vToastify.success({
+            title: 'Sucesso',
+            body: 'Empresa atualizada',
+            type: 'success',
+            canTimeout: true,
+            duration: 2000,
+          });
         }
       } catch (error) {
-        console.log(this.company);
-        console.log(error.message);
+        this.$vToastify.error({
+          title: 'Erro',
+          body: 'Falha na operaçāo',
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
       }
     },
     async deleteCompany(company) {
-      this.id = company.id;
-      // eslint-disable-next-line no-restricted-globals
-      if (confirm('Esta operaçāo é irreversível. Deseja apagar o produto?')) {
-        await axios.delete(`http://localhost:3333/companies/${this.id}`);
-        this.getCompanies();
-        this.clear();
+      try {
+        this.id = company.id;
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm('Esta operaçāo é irreversível. Deseja apagar o produto?')) {
+          await axios.delete(`http://localhost:3333/companies/${this.id}`);
+          this.getCompanies();
+          this.clear();
+          this.$vToastify.success({
+            title: 'Sucesso',
+            body: 'Empresa excluida',
+            type: 'success',
+            canTimeout: true,
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        this.$vToastify.error({
+          title: 'Erro',
+          body: 'Falha na operaçāo',
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
       }
     },
   },

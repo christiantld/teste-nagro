@@ -25,52 +25,51 @@
         </div>
         <div class="buttons">
           <button @click="saveProduct">{{!productId ? 'Cadastrar' : 'Atualizar'}}</button>
-          <button v-if="productId" @click="cancelEditProduct" >Cancelar</button>
+          <button v-if="productId" @click="cancelEditProduct">Cancelar</button>
         </div>
       </form>
     </div>
 
     <div class="table__wrapper">
       <div class="table__selector">
-        <p>Desejo ver os produtos da empresa: </p>
-          <select v-model="companyIdSearch" @change="getProducts">
-            <option selected disabled>Escolha uma empresa</option>
-            <option
-              v-for="company in companies"
-              :value="company.id"
-              :key="company.id"
-            >{{company.name}}</option>
-          </select>
+        <p>Desejo ver os produtos da empresa:</p>
+        <select v-model="companyIdSearch" @change="getProducts">
+          <option selected disabled>Escolha uma empresa</option>
+          <option
+            v-for="company in companies"
+            :value="company.id"
+            :key="company.id"
+          >{{company.name}}</option>
+        </select>
       </div>
       <div class="table__container" v-if="companyIdSearch">
-      <table>
-        <thead v-if="products.length === 0">
-          <th>Nenhum Produto cadastrado para essa empresa</th>
-        </thead>
-        <thead v-else>
-          <tr>
-            <th>Nome do Produto</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="product in products" :key="product.id">
-            <td>
-              <span>{{product.name}}</span>
-            </td>
+        <table>
+          <thead v-if="products.length === 0">
+            <th>Nenhum Produto cadastrado para essa empresa</th>
+          </thead>
+          <thead v-else>
+            <tr>
+              <th>Nome do Produto</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="product in products" :key="product.id">
+              <td>
+                <span>{{product.name}}</span>
+              </td>
 
-            <td>
-              <div class="buttons">
-                <button @click="editProduct(product)">Alterar</button>
-                <button @click="deleteProduct(product)">Excluir</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <td>
+                <div class="buttons">
+                  <button @click="editProduct(product)">Alterar</button>
+                  <button @click="deleteProduct(product)">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    </div>
-
   </div>
 </template>
 
@@ -107,7 +106,6 @@ export default {
       const userId = localStorage.getItem('userId');
       return userId;
     },
-
     getCompanyId() {
       console.log(this.companyIdSearch);
     },
@@ -121,52 +119,115 @@ export default {
     },
 
     async getCompanies() {
-      const response = await axios.get(
-        `http://localhost:3333/companies?_sort=name&_order=asc&userId=${this.userId}`,
-      );
-      const companies = response.data;
-      this.companies = companies;
+      try {
+        const response = await axios.get(
+          `http://localhost:3333/companies?_sort=name&_order=asc&userId=${this.userId}`,
+        );
+        const companies = response.data;
+        this.companies = companies;
+      } catch (error) {
+        this.$vToastify.error({
+          title: 'Erro',
+          body: 'Falha no carregamento das empresas',
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
+      }
     },
 
     async getProducts() {
-      const response = await axios.get(
-        `http://localhost:3333/products?_sort=name&_order=asc&companyId=${this.companyIdSearch}`,
-      );
-      const products = response.data;
-      this.products = products;
+      try {
+        const response = await axios.get(
+          `http://localhost:3333/products?_sort=name&_order=asc&companyId=${this.companyIdSearch}`,
+        );
+        const products = response.data;
+        this.products = products;
+      } catch (error) {
+        this.$vToastify.error({
+          title: 'Erro',
+          body: 'Falha no carregamento dos produtos',
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
+      }
     },
 
     async saveProduct() {
-      if (!this.product.name || !this.product.companyId) {
-        return;
-      }
+      try {
+        if (!this.product.name || !this.product.companyId) {
+          this.$vToastify.warning({
+            title: 'Alerta',
+            body: 'Preencha os dados corretamente',
+            type: 'warning',
+            canTimeout: true,
+            duration: 2000,
+          });
+          return;
+        }
 
-      if (!this.productId) {
-        const response = await axios.post(
-          'http://localhost:3333/products',
-          this.product,
-        );
-        console.log(response.data);
-        this.getProducts();
-        this.clear();
-      } else {
-        const response = await axios.put(
-          `http://localhost:3333/products/${this.productId}`,
-          this.product,
-        );
-        console.log(response.data);
-        this.getProducts();
-        this.clear();
+        if (!this.productId) {
+          await axios.post('http://localhost:3333/products', this.product);
+          this.getProducts();
+          this.clear();
+          this.$vToastify.success({
+            title: 'Sucesso',
+            body: 'Produto cadastrado',
+            type: 'success',
+            canTimeout: true,
+            duration: 2000,
+          });
+        } else {
+          const response = await axios.put(
+            `http://localhost:3333/products/${this.productId}`,
+            this.product,
+          );
+          this.getProducts();
+          this.clear();
+          this.$vToastify.success({
+            title: 'Sucesso',
+            body: 'Produto atualizado',
+            type: 'success',
+            canTimeout: true,
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        this.$vToastify.error({
+          title: 'Erro',
+          body: 'Falha na operaçāo',
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
       }
     },
 
     async deleteProduct(product) {
-      this.productId = product.id;
-      // eslint-disable-next-line no-restricted-globals
-      if (confirm('Esta operaçāo é irreversível. Deseja apagar o produto?')) {
-        await axios.delete(`http://localhost:3333/products/${this.productId}`);
-        this.getProducts();
-        this.clear();
+      try {
+        this.productId = product.id;
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm('Esta operaçāo é irreversível. Deseja apagar o produto?')) {
+          await axios.delete(`http://localhost:3333/products/${this.productId}`);
+          this.getProducts();
+          this.clear();
+          this.$vToastify.success({
+            title: 'Sucesso',
+            body: 'Produto excluido',
+            type: 'success',
+            canTimeout: true,
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        this.$vToastify.error({
+          title: 'Erro',
+          body: 'Falha na operaçāo',
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
       }
     },
   },
@@ -177,7 +238,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .form__container {
   display: flex;
   background: #f8f9fa;
@@ -259,10 +319,10 @@ export default {
 
 .table__selector {
   display: flex;
- background-color: #f0f1f4;
+  background-color: #f0f1f4;
   margin: 0 100px;
   justify-content: space-evenly;
-  align-items:center;
+  align-items: center;
   margin-top: 20px;
   width: 35%;
   padding: 5px;
@@ -274,13 +334,13 @@ export default {
   }
 
   select {
-      padding: 10px;
-      width: 200px;
-      border: none;
-      border-radius: 5px;
-      background: rgba(100, 100, 100, 0.1);
-      color: rgba(100, 100, 100, 0.8);
-    }
+    padding: 10px;
+    width: 200px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(100, 100, 100, 0.1);
+    color: rgba(100, 100, 100, 0.8);
+  }
 }
 
 .table__container {

@@ -13,18 +13,12 @@
     </svg>
     <div id="form__container">
       <div class="login__form">
-        <form @submit.prevent="login">
+        <form @submit.prevent>
           <h3>Faça seu Login</h3>
           <hr />
-          <input type="email" required placeholder="E-mail"
-          v-model="user.email" />
-          <input
-            type="password"
-            required
-            placeholder="Senha"
-            v-model="user.password"
-          />
-          <button type="submit">Entrar</button>
+          <input type="email" required placeholder="E-mail" v-model="user.email" />
+          <input type="password" required placeholder="Senha" v-model="user.password" />
+          <button @click="login">Entrar</button>
         </form>
       </div>
       <div class="signup">
@@ -53,11 +47,21 @@ export default {
   methods: {
     async login() {
       try {
+        if (!this.user.email || !this.user.password) {
+          this.$vToastify.warning({
+            title: 'Alerta',
+            body: 'Preencha os dados corretamente',
+            type: 'warning',
+            canTimeout: true,
+            duration: 2000,
+          });
+          return;
+        }
         const response = await axios.get(
           `http://localhost:3333/users?email=${this.user.email}&password=${this.user.password}`,
         );
         if (response.data.length !== 1) {
-          throw new Error('Erro ao fazer Login, verifique seus dados');
+          throw new Error('Verifique seus dados e tente novamente');
         }
         const [user] = response.data;
         delete user.password;
@@ -69,7 +73,13 @@ export default {
         this.navigate();
         console.log(user, this.user.email, this.user.password);
       } catch (error) {
-        console.error(error.message);
+        this.$vToastify.error({
+          title: 'Erro',
+          body: error.message,
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
       }
     },
     navigate() {

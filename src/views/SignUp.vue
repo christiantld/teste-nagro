@@ -13,13 +13,14 @@
     </svg>
     <div id="form__container">
       <div class="login__form">
-        <form @submit.prevent="register">
+        <form @submit.prevent>
           <h3>Faça seu Cadastro</h3>
           <hr />
-          <input type="text" required name placeholder="Nome" v-model="user.name" />
-          <input type="email" required name placeholder="E-mail" v-model="user.email" />
-          <input type="password" required name placeholder="Senha" v-model="user.password" />
-          <button type="submit">Cadastrar</button>
+          <input type="text" required placeholder="Nome" v-model="user.name" />
+          <input type="email" required placeholder="E-mail" v-model="user.email" />
+          <input type="password" min="5" required placeholder="Senha"
+          v-model="user.password" />
+          <button @click="register">Cadastrar</button>
         </form>
       </div>
       <div class="signup">
@@ -48,16 +49,65 @@ export default {
   },
   methods: {
     clear() {
-      this.user = {};
+      this.user.name = '';
+      this.user.password = '';
+      this.user.email = '';
+    },
+
+    async verifyEmail(email) {
+      const response = await axios.get(`http://localhost:3333/users?email=${email}`);
+      const user = response.data;
+
+      if (user.length !== 0) {
+        throw new Error('Email já cadastrado');
+      }
+
+      return true;
     },
 
     async register() {
-      const response = await axios.post(
-        'http://localhost:3333/users',
-        this.user,
-      );
-      this.clear();
-      console.log(response.data);
+      try {
+        if (!this.user.email || !this.user.password || !this.user.name) {
+          this.$vToastify.warning({
+            title: 'Alerta',
+            body: 'Preencha os dados corretamente',
+            type: 'warning',
+            canTimeout: true,
+            duration: 2000,
+          });
+          return;
+        }
+
+        await this.verifyEmail(this.user.email);
+
+        const response = await axios.post(
+          'http://localhost:3333/users',
+          this.user,
+        );
+        this.clear();
+        this.$vToastify.success({
+          title: 'Sucesso',
+          body: 'Usuário cadastrado',
+          type: 'success',
+          canTimeout: true,
+          duration: 2000,
+        });
+        setTimeout(() => {
+          this.navigate();
+        }, 2000);
+      } catch (error) {
+        this.$vToastify.error({
+          title: 'Alerta',
+          body: error.message,
+          type: 'error',
+          canTimeout: true,
+          duration: 2000,
+        });
+      }
+    },
+
+    navigate() {
+      this.$router.push('/login');
     },
   },
 };

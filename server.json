@@ -1,168 +1,204 @@
 {
   "users": [
     {
-      "name": "Christian",
-      "email": "christian@email.com",
-      "password": "12345",
+      "name": "Tester User",
+      "email": "teste@email.com",
+      "password": "123456",
       "id": 1
     },
     {
-      "name": "Diogo Clemente",
-      "email": "betoneira@email.com",
-      "password": "12345",
+      "name": "John Doe",
+      "email": "johndoe@email.com",
+      "password": "123456",
       "id": 2
     },
     {
-      "name": "Rossano Vinicius",
-      "email": "pirpinta@email.com",
-      "password": "12345",
+      "name": "Jane Doe",
+      "email": "janedoe@email.com",
+      "password": "123456",
       "id": 3
-    },
-    {
-      "name": "Diogo Rego",
-      "email": "diogo@email.com",
-      "password": "12345",
-      "id": 4
-    },
-    {
-      "name": "Diogo",
-      "email": "betoneira@email.com",
-      "password": "12345",
-      "id": 5
-    },
-    {
-      "name": "Ademir",
-      "email": "admin@admin.com",
-      "password": "admin123",
-      "id": 6
     }
   ],
   "companies": [
     {
-      "id": "50",
       "userId": "1",
-      "name": "Reichel and Sons",
-      "cnpj": 9900898
-    },
-    {
-      "userId": 6,
       "name": "Apple",
-      "cnpj": "92801908290",
-      "id": "P9lQR_S"
+      "cnpj": "12.779.531/0001-03",
+      "id": 1
     },
     {
-      "userId": "6",
+      "userId": "1",
       "name": "Google",
-      "cnpj": "90909092",
-      "id": "RmKaiqj"
+      "cnpj": "74.401.594/0001-89",
+      "id": 2
     },
     {
-      "userId": "6",
+      "userId": "1",
+      "name": "Microsoft",
+      "cnpj": "85.879.970/0001-61",
+      "id": 3
+    },
+    {
+      "userId": "1",
       "name": "Amazon",
-      "cnpj": "091208912",
-      "id": "RgkMS3q"
+      "cnpj": "29.920.530/0001-30",
+      "id": 4
     },
     {
-      "userId": "6",
-      "name": "Alterar Mascara CNPJ",
-      "cnpj": "09908890",
-      "id": "WnKZh7C"
-    },
-    {
-      "userId": "6",
-      "name": "JBL",
-      "cnpj": "56564465465433",
-      "id": "FUT383B"
-    },
-    {
-      "userId": "6",
+      "userId": "1",
       "name": "Samsung",
-      "cnpj": "65465465465",
-      "id": "iqgi69d"
+      "cnpj": "11.886.330/0001-42",
+      "id": 5
     },
     {
-      "userId": "6",
-      "name": "Coca-Cola",
-      "cnpj": "9090909",
-      "id": "d_EkoeF"
+      "userId": "2",
+      "name": "John Deere",
+      "cnpj": "89.962.822/0001-67",
+      "id": 6
     },
     {
-      "userId": "6",
-      "name": "Mais uma empresa",
-      "cnpj": "12121313",
-      "id": "uUBqbpT"
+      "userId": "2",
+      "name": "Bayer",
+      "cnpj": "81.374.118/0001-81",
+      "id": 7
     },
     {
-      "companyId": "d_EkoeF",
-      "name": "Fantastic Wooden Ball",
-      "id": "lspGVbj"
+      "userId": "2",
+      "name": "Nagro Fintech",
+      "cnpj": "03.917.963/0001-42",
+      "id": 8
     }
   ],
   "products": [
     {
-      "id": "1",
-      "companyId": "RgkMS3q",
-      "name": "Unbranded Cotton Cheese"
+      "companyId": 1,
+      "name": "Iphone 11",
+      "id": 1
     },
     {
-      "id": "2",
-      "companyId": "RgkMS3q",
-      "name": "Sleek Concrete Shoes"
+      "companyId": 1,
+      "name": "Ipad Pro",
+      "id": 2
     },
     {
-      "id": "3",
-      "companyId": "RgkMS3q",
-      "name": "Tasty Wooden Shirt"
+      "companyId": 1,
+      "name": "Iphone XR",
+      "id": 3
     },
     {
-      "id": "4",
-      "companyId": "RgkMS3q",
-      "name": "Alexa"
+      "companyId": 1,
+      "name": "Apple Watch",
+      "id": 4
     },
     {
-      "id": "5",
-      "companyId": "d_EkoeF",
-      "name": "Handmade Fresh Towels"
+      "companyId": 1,
+      "name": "Macbook",
+      "id": 5
     },
     {
-      "id": "7",
-      "companyId": "d_EkoeF",
-      "name": "Unbranded Concrete Car"
+      "companyId": 4,
+      "name": "Alexa",
+      "id": 6
     },
     {
-      "companyId": "d_EkoeF",
-      "name": "Fantastic Wooden Bal",
-      "id": "9atMdgi"
+      "companyId": 4,
+      "name": "Fire Stick Tv",
+      "id": 7
     },
     {
-      "companyId": "P9lQR_S",
-      "name": "Iphone",
-      "id": "msdUqPW"
+      "companyId": 4,
+      "name": "Kindle Paper Write",
+      "id": 8
     },
     {
-      "companyId": "P9lQR_S",
-      "name": "Ipad",
-      "id": "sl96PDF"
+      "companyId": 4,
+      "name": "Prime Video",
+      "id": 9
     },
     {
-      "companyId": "uUBqbpT",
-      "name": "Produto teste 2",
-      "id": "5bQqAgs"
+      "companyId": 2,
+      "name": "Youtube",
+      "id": 10
     },
     {
-      "companyId": "iqgi69d",
-      "name": "Galaxy S10",
-      "id": "6Q59Jmn"
+      "companyId": 2,
+      "name": "Maps",
+      "id": 11
     },
     {
-      "companyId": "RgkMS3q",
-      "name": "Fire Stick",
-      "id": "tZwtOG6"
+      "companyId": 2,
+      "name": "Firebase",
+      "id": 12
     },
     {
-      "companyId": "WnKZh7C",
-      "name": "ghfgfhfg",
-      "id": "s9cyaQy"
+      "companyId": 2,
+      "name": "Gmail",
+      "id": 13
+    },
+    {
+      "companyId": 2,
+      "name": "Drive",
+      "id": 14
+    },
+    {
+      "companyId": 2,
+      "name": "Youtube Music",
+      "id": 15
+    },
+    {
+      "companyId": 3,
+      "name": "Office 365",
+      "id": 16
+    },
+    {
+      "companyId": 3,
+      "name": "Azure",
+      "id": 17
+    },
+    {
+      "companyId": 3,
+      "name": "Windows 10",
+      "id": 18
+    },
+    {
+      "companyId": 3,
+      "name": "Xbox One",
+      "id": 19
+    },
+    {
+      "companyId": 7,
+      "name": "Aspirina",
+      "id": 20
+    },
+    {
+      "companyId": 7,
+      "name": "Algodão Monsanto",
+      "id": 21
+    },
+    {
+      "companyId": 7,
+      "name": "Flanax",
+      "id": 22
+    },
+    {
+      "companyId": 7,
+      "name": "Liberty",
+      "id": 23
+    },
+    {
+      "companyId": 6,
+      "name": "Tratores Série 6M",
+      "id": 24
+    },
+    {
+      "companyId": 6,
+      "name": "Tratores Pequenos Série 5E",
+      "id": 25
+    },
+    {
+      "companyId": 6,
+      "name": "Retroescavadeira 310L",
+      "id": 26
     }
   ]
 }
