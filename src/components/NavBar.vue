@@ -60,6 +60,7 @@ export default {
   background: #f8f9fa;
   padding: 0 30px;
   box-shadow: 0 3px 2px -2px #ccc;
+  min-width: 670px;
 }
 
 #content {

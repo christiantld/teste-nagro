@@ -215,6 +215,7 @@ export default {
   flex-direction: column;
   border-radius: 10px;
   margin-top: 20px;
+  min-width: 546px;
 }
 
 .form__title {
@@ -245,7 +246,7 @@ export default {
   }
 
   #name-company {
-    width: 500px;
+    width: 400px;
   }
 
   #cnpj {
@@ -275,6 +276,11 @@ export default {
   justify-content: center;
   flex-direction: column;
   margin-top: 20px;
+  min-width: 595px;
+
+  table {
+    min-width: 595px;
+  }
 
   thead {
     background-color: #f0f1f4;

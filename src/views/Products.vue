@@ -246,6 +246,7 @@ export default {
   flex-direction: column;
   border-radius: 10px;
   margin-top: 20px;
+  min-width: 546px;
 }
 
 .form__title {
@@ -327,6 +328,7 @@ export default {
   width: 35%;
   padding: 5px;
   border-radius: 8px 8px 0 0;
+  min-width: 500px;
 
   p {
     font-size: 16px;
@@ -348,9 +350,14 @@ export default {
   background: #f8f9fa;
   margin: 0 100px;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   min-width: 500px;
   width: 35%;
+
+  table {
+    min-width: 500px;
+  }
 
   thead {
     background-color: #f0f1f4;
