@@ -16,8 +16,14 @@
         <form @submit.prevent="login">
           <h3>Faça seu Login</h3>
           <hr />
-          <input type="email" required  placeholder="E-mail" v-model="user.email" />
-          <input type="password" required placeholder="Senha" v-model="user.password" />
+          <input type="email" required placeholder="E-mail"
+          v-model="user.email" />
+          <input
+            type="password"
+            required
+            placeholder="Senha"
+            v-model="user.password"
+          />
           <button type="submit">Entrar</button>
         </form>
       </div>

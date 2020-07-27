@@ -23,6 +23,15 @@ body, input, button {
   font: 14px 'Roboto', sans-serif;
   color: #1f272f
 }
+
+form input, form select:focus  {
+  transition: box-shadow 0.25s ease-in-out
+}
+
+form input:focus, form select:focus {
+  box-shadow: 2px 2px 4px #aaa;
+}
+
 a {
   text-decoration: none;
 }
@@ -32,4 +41,13 @@ ul {
 button {
  cursor: pointer;
  border: none;
+ padding: 12px 24px;
+ border-radius: 6px;
+ transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+ box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+}
+
+button:hover {
+  transform: translate3d(0px,-1px,0px);
+  box-shadow: 0 7px 14px rgba(50,50,93,.15), 0 3px 6px rgba(0,0,0,.09);
 }

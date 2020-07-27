@@ -16,7 +16,7 @@
           Olá,
           <strong>{{userName}}</strong>
         </span>
-        <button @click="logOut">Sair</button>
+        <a class="aside__logOut" @click="logOut">Sair</a>
       </aside>
     </div>
   </div>
@@ -73,13 +73,20 @@ export default {
     display: flex;
     align-items: flex-start;
     margin-top: 8px;
-    a {
-      color: #1565c0;
-    }
     span {
       margin-right: 10px;
       font-size: 14px;
       text-transform: uppercase;
+      color: #1565c0;
+    }
+
+    a {
+       transition: transform 0.25s ease
+    }
+
+    a:hover{
+      filter:brightness(0.5);
+      transform: translate3d(0px,-1px,0px);
     }
     img {
       width: 80px;
@@ -90,7 +97,7 @@ export default {
     display: flex;
     justify-content: left;
   }
-  button {
+  .aside__logOut {
     margin-left: 20px;
     color: #1565c0;
     background: none;
@@ -99,6 +106,12 @@ export default {
     font-weight: bold;
     text-decoration: none;
     margin-right: 30px;
+    cursor: pointer;
+    transition: transform 0.25s ease
+  }
+  .aside__logOut:hover {
+    transform: translate3d(0px,-1px,0px);
+    filter:brightness(0.5)
   }
 }
 </style>

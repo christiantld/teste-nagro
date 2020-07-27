@@ -39,18 +39,6 @@
   ],
   "companies": [
     {
-      "id": "1",
-      "userId": "6",
-      "name": "Lehner - Kassulke",
-      "cnpj": 9909089
-    },
-    {
-      "id": "50",
-      "userId": "6",
-      "name": "Reichel and Sons",
-      "cnpj": 9900898
-    },
-    {
       "id": "50",
       "userId": "1",
       "name": "Reichel and Sons",
@@ -77,7 +65,7 @@
     {
       "userId": "6",
       "name": "Alterar Mascara CNPJ",
-      "cnpj": "jhhjkjkh",
+      "cnpj": "09908890",
       "id": "WnKZh7C"
     },
     {
@@ -94,16 +82,87 @@
     },
     {
       "userId": "6",
-      "name": "AOC",
-      "cnpj": "90890212",
-      "id": "woXUaSs"
+      "name": "Coca-Cola",
+      "cnpj": "9090909",
+      "id": "d_EkoeF"
     },
     {
       "userId": "6",
-      "name": "Coca-Cola",
-      "cnpj": "90909092",
-      "id": "d_EkoeF"
+      "name": "Mais uma empresa",
+      "cnpj": "12121313",
+      "id": "uUBqbpT"
+    },
+    {
+      "companyId": "d_EkoeF",
+      "name": "Fantastic Wooden Ball",
+      "id": "lspGVbj"
     }
   ],
-  "products": []
+  "products": [
+    {
+      "id": "1",
+      "companyId": "RgkMS3q",
+      "name": "Unbranded Cotton Cheese"
+    },
+    {
+      "id": "2",
+      "companyId": "RgkMS3q",
+      "name": "Sleek Concrete Shoes"
+    },
+    {
+      "id": "3",
+      "companyId": "RgkMS3q",
+      "name": "Tasty Wooden Shirt"
+    },
+    {
+      "id": "4",
+      "companyId": "RgkMS3q",
+      "name": "Alexa"
+    },
+    {
+      "id": "5",
+      "companyId": "d_EkoeF",
+      "name": "Handmade Fresh Towels"
+    },
+    {
+      "id": "7",
+      "companyId": "d_EkoeF",
+      "name": "Unbranded Concrete Car"
+    },
+    {
+      "companyId": "d_EkoeF",
+      "name": "Fantastic Wooden Bal",
+      "id": "9atMdgi"
+    },
+    {
+      "companyId": "P9lQR_S",
+      "name": "Iphone",
+      "id": "msdUqPW"
+    },
+    {
+      "companyId": "P9lQR_S",
+      "name": "Ipad",
+      "id": "sl96PDF"
+    },
+    {
+      "companyId": "uUBqbpT",
+      "name": "Produto teste 2",
+      "id": "5bQqAgs"
+    },
+    {
+      "companyId": "iqgi69d",
+      "name": "Galaxy S10",
+      "id": "6Q59Jmn"
+    },
+    {
+      "companyId": "RgkMS3q",
+      "name": "Fire Stick",
+      "id": "tZwtOG6"
+    },
+    {
+      "companyId": "WnKZh7C",
+      "name": "ghfgfhfg",
+      "id": "s9cyaQy"
+    }
+  ]
 }

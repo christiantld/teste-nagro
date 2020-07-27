@@ -5,47 +5,72 @@
       <h3 class="form__title">Cadastrar Produto</h3>
       <form @submit.prevent class="form__content">
         <div class="inputs">
-          <input type="text" name id="name-product" placeholder="Nome do produto" maxlength="100" />
-          <select>
-              <option selected disabled value>Escolha uma empresa</option>
-              <option v-for="company in companies" :value="company.name"
-              :key="company.id">{{company.name}}</option>
+          <input
+            type="text"
+            id="name-product"
+            placeholder="Nome do produto"
+            autocomplete="off"
+            maxlength="50"
+            required
+            v-model.trim.lazy="product.name"
+          />
+          <select required v-model="product.companyId">
+            <option selected disabled value>Escolha uma empresa</option>
+            <option
+              v-for="company in companies"
+              :value="company.id"
+              :key="company.id"
+            >{{company.name}}</option>
           </select>
         </div>
         <div class="buttons">
-          <button>Cadastrar</button>
-          <button>Atualizar</button>
+          <button @click="saveProduct">{{!productId ? 'Cadastrar' : 'Atualizar'}}</button>
+          <button v-if="productId" @click="cancelEditProduct" >Cancelar</button>
         </div>
       </form>
     </div>
 
-    <div class="table__container">
+    <div class="table__wrapper">
+      <div class="table__selector">
+        <p>Desejo ver os produtos da empresa: </p>
+          <select v-model="companyIdSearch" @change="getProducts">
+            <option selected disabled>Escolha uma empresa</option>
+            <option
+              v-for="company in companies"
+              :value="company.id"
+              :key="company.id"
+            >{{company.name}}</option>
+          </select>
+      </div>
+      <div class="table__container" v-if="companyIdSearch">
       <table>
-        <thead>
+        <thead v-if="products.length === 0">
+          <th>Nenhum Produto cadastrado para essa empresa</th>
+        </thead>
+        <thead v-else>
           <tr>
             <th>Nome do Produto</th>
-            <th>Empresa</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr v-for="product in products" :key="product.id">
             <td>
-              <span>Teste</span>
+              <span>{{product.name}}</span>
             </td>
-            <td>
-              <span>Teste</span>
-            </td>
+
             <td>
               <div class="buttons">
-                <button>Alterar</button>
-                <button>Excluir</button>
+                <button @click="editProduct(product)">Alterar</button>
+                <button @click="deleteProduct(product)">Excluir</button>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    </div>
+
   </div>
 </template>
 
@@ -57,6 +82,14 @@ export default {
   name: 'Home',
   data() {
     return {
+      userId: this.getUserId(),
+      product: {
+        companyId: '',
+        name: '',
+      },
+      products: [],
+      productId: null,
+      companyIdSearch: null,
       companies: [],
     };
   },
@@ -64,9 +97,77 @@ export default {
     NavBar,
   },
   methods: {
+    clear() {
+      this.product.companyId = '';
+      this.product.name = '';
+      this.productId = null;
+      delete this.product.id;
+    },
+    getUserId() {
+      const userId = localStorage.getItem('userId');
+      return userId;
+    },
+
+    getCompanyId() {
+      console.log(this.companyIdSearch);
+    },
+    editProduct(product) {
+      this.product = product;
+      this.productId = product.id;
+    },
+    cancelEditProduct() {
+      this.clear();
+      this.getProducts();
+    },
+
     async getCompanies() {
-      const response = await axios.get('https://5f1aff12610bde0016fd343f.mockapi.io/user/1/companies');
-      this.companies = response.data;
+      const response = await axios.get(
+        `http://localhost:3333/companies?_sort=name&_order=asc&userId=${this.userId}`,
+      );
+      const companies = response.data;
+      this.companies = companies;
+    },
+
+    async getProducts() {
+      const response = await axios.get(
+        `http://localhost:3333/products?_sort=name&_order=asc&companyId=${this.companyIdSearch}`,
+      );
+      const products = response.data;
+      this.products = products;
+    },
+
+    async saveProduct() {
+      if (!this.product.name || !this.product.companyId) {
+        return;
+      }
+
+      if (!this.productId) {
+        const response = await axios.post(
+          'http://localhost:3333/products',
+          this.product,
+        );
+        console.log(response.data);
+        this.getProducts();
+        this.clear();
+      } else {
+        const response = await axios.put(
+          `http://localhost:3333/products/${this.productId}`,
+          this.product,
+        );
+        console.log(response.data);
+        this.getProducts();
+        this.clear();
+      }
+    },
+
+    async deleteProduct(product) {
+      this.productId = product.id;
+      // eslint-disable-next-line no-restricted-globals
+      if (confirm('Esta operaçāo é irreversível. Deseja apagar o produto?')) {
+        await axios.delete(`http://localhost:3333/products/${this.productId}`);
+        this.getProducts();
+        this.clear();
+      }
     },
   },
   beforeMount() {
@@ -76,6 +177,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .form__container {
   display: flex;
   background: #f8f9fa;
@@ -94,14 +196,14 @@ export default {
 .form__content {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin: 20px 0 0 20px;
   height: 90px;
   flex-wrap: wrap;
 
-#name-product {
-  width: 400px;
-}
+  #name-product {
+    width: 400px;
+  }
 
   input {
     background: rgba(100, 100, 100, 0.1);
@@ -123,12 +225,12 @@ export default {
 
   .inputs {
     select {
-    padding: 10px;
-    width: 200px;
-    border:none;
-    border-radius: 5px;
-    background: rgba(100, 100, 100, 0.1);
-    color:  rgba(100, 100, 100, 0.8);
+      padding: 10px;
+      width: 200px;
+      border: none;
+      border-radius: 5px;
+      background: rgba(100, 100, 100, 0.1);
+      color: rgba(100, 100, 100, 0.8);
     }
   }
 
@@ -144,8 +246,41 @@ export default {
 
   button + button {
     margin-left: 10px;
-    background-color: #1565c0;
+    background-color: #fb6340;
   }
+}
+
+.table__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.table__selector {
+  display: flex;
+ background-color: #f0f1f4;
+  margin: 0 100px;
+  justify-content: space-evenly;
+  align-items:center;
+  margin-top: 20px;
+  width: 35%;
+  padding: 5px;
+  border-radius: 8px 8px 0 0;
+
+  p {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  select {
+      padding: 10px;
+      width: 200px;
+      border: none;
+      border-radius: 5px;
+      background: rgba(100, 100, 100, 0.1);
+      color: rgba(100, 100, 100, 0.8);
+    }
 }
 
 .table__container {
@@ -154,7 +289,8 @@ export default {
   margin: 0 100px;
   justify-content: center;
   flex-direction: column;
-  margin-top: 20px;
+  min-width: 500px;
+  width: 35%;
 
   thead {
     background-color: #f0f1f4;
@@ -172,9 +308,8 @@ export default {
   tbody td {
     padding: 12px;
     vertical-align: middle;
-
     overflow: hidden;
-    font-size: 16px;
+    font-size: 15px;
     &:last-of-type {
       text-align: center;
     }

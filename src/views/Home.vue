@@ -7,26 +7,26 @@
         <div class="inputs">
           <input
             type="text"
-            name
             id="name-company"
             required
             placeholder="Nome da empresa"
+            autocomplete="off"
             maxlength="100"
             v-model.trim.lazy="company.name"
           />
           <input
             type="text"
-            name
             id="cnpj"
             placeholder="CNPJ"
             required
+            autocomplete="off"
             maxlength="14"
             v-model.trim.lazy="company.cnpj"
           />
         </div>
         <div class="buttons">
           <button @click="saveCompany">{{!id ? 'Cadastrar' : 'Atualizar'}}</button>
-          <!-- <button>Atualizar</button> -->
+          <button v-if="id" @click="cancelEditCompany">Cancelar</button>
         </div>
       </form>
     </div>
@@ -103,33 +103,43 @@ export default {
       this.company = company;
       this.id = company.id;
     },
+    cancelEditCompany() {
+      this.clear();
+      this.getCompanies();
+    },
     async getCompanies() {
       const response = await axios.get(
-        `http://localhost:3333/companies?userId=${this.company.userId}`,
+        `http://localhost:3333/companies?userId=${this.company.userId}&_sort=name&_order=asc`,
       );
       const companies = response.data;
       this.companies = companies;
     },
     async saveCompany() {
-      if (!this.company.name || !this.company.cnpj) {
-        return;
-      }
-      if (!this.id) {
-        const response = await axios.post(
-          'http://localhost:3333/companies',
-          this.company,
-        );
-        console.log(response.data);
-        this.getCompanies();
-        this.clear();
-      } else {
-        const response = await axios.put(
-          `http://localhost:3333/companies/${this.id}`,
-          this.company,
-        );
-        console.log(response.data);
-        this.getCompanies();
-        this.clear();
+      try {
+        if (!this.company.name || !this.company.cnpj) {
+          return;
+        }
+        if (!this.id) {
+          delete this.company.id;
+          const response = await axios.post(
+            'http://localhost:3333/companies',
+            this.company,
+          );
+          console.log(response.data);
+          this.getCompanies();
+          this.clear();
+        } else {
+          const response = await axios.put(
+            `http://localhost:3333/companies/${this.id}`,
+            this.company,
+          );
+          console.log(response.data);
+          this.getCompanies();
+          this.clear();
+        }
+      } catch (error) {
+        console.log(this.company);
+        console.log(error.message);
       }
     },
     async deleteCompany(company) {
@@ -203,6 +213,10 @@ export default {
     font-size: 16px;
     font-weight: bold;
     border-radius: 5px;
+  }
+  button + button {
+    margin-left: 10px;
+    background-color: #fb6340;
   }
 }
 
